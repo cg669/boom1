@@ -7,9 +7,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var winHeight = window.innerHeight;
 var winWidth = window.innerWidth;
 
-var WorkBus = function () {
-    function WorkBus() {
-        _classCallCheck(this, WorkBus);
+var BaseWorkBus = function () {
+    function BaseWorkBus() {
+        _classCallCheck(this, BaseWorkBus);
 
         this.times = 0;
         this.list = [];
@@ -24,7 +24,7 @@ var WorkBus = function () {
         };
     }
 
-    _createClass(WorkBus, [{
+    _createClass(BaseWorkBus, [{
         key: "addMethod",
         value: function addMethod(name, fn) {
             this[name] = fn;
@@ -39,34 +39,6 @@ var WorkBus = function () {
         value: function callFunc(func) {
             this.change = true;
             this.callBackFunc = func;
-        }
-    }, {
-        key: "playWork",
-        value: function playWork() {
-            var _this = this;
-
-            this.times++;
-            this.isWorking = true;
-            this.iTimer = requestAnimationFrame(function () {
-                if (_this.change) {
-                    _this.list.reduce(function (a, b) {
-                        if (a && a.left) {
-                            b.changePxy(a.left, a.top);
-                        } else if (b) {
-                            _this.callBackFunc(b);
-                        }
-                        return b;
-                    }, null);
-                }
-                _this.list.forEach(function (el) {
-                    _this.collection(el);
-                    el.move();
-                });
-                if (!_this.isWorking) {
-                    return;
-                };
-                _this.playWork();
-            });
         }
         /**
          * 关闭运动s
@@ -101,5 +73,5 @@ var WorkBus = function () {
         }
     }]);
 
-    return WorkBus;
+    return BaseWorkBus;
 }();

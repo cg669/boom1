@@ -1,5 +1,13 @@
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var EventUtil = {
     addHandler: function addHandler(element, type, handler) {
         if (element.addEventListener) element.addEventListener(type, handler, false);else if (element.attachEvent) element.attachEvent("on" + type, handler);else element["on" + type] = handler;
@@ -62,9 +70,88 @@ var EventUtil = {
     }
 };
 
+var WorkBus = function (_BaseWorkBus) {
+    _inherits(WorkBus, _BaseWorkBus);
+
+    function WorkBus(props) {
+        _classCallCheck(this, WorkBus);
+
+        var _this = _possibleConstructorReturn(this, (WorkBus.__proto__ || Object.getPrototypeOf(WorkBus)).call(this, props));
+
+        _this.hatList = [];
+        return _this;
+    }
+
+    _createClass(WorkBus, [{
+        key: "addHat",
+        value: function addHat(hat) {
+            this.hatList.push(hat);
+        }
+    }, {
+        key: "addBiu",
+        value: function addBiu() {
+            var lastOne = this.list[this.list.length - 1];
+            var snake = new Biu({ left: lastOne.px, top: lastOne.py, radius: 10 });
+            this.add(snake);
+        }
+    }, {
+        key: "removeHat",
+        value: function removeHat(key) {
+            var list = this.hatList;
+            this.hatList = list.filter(function (el) {
+                return el.key !== key;
+            });
+        }
+    }, {
+        key: "playWork",
+        value: function playWork() {
+            var _this2 = this;
+
+            if (this.times % 200 === 9) {
+                var w = Math.random() * 20 + 10;
+                var hat = new Hat({ width: w, height: w, left: Math.random() * winWidth, top: Math.random() * winHeight });
+                this.addHat(hat);
+            }
+            this.times++;
+            this.isWorking = true;
+            this.iTimer = requestAnimationFrame(function () {
+                if (_this2.change) {
+                    _this2.list.reduce(function (a, b) {
+                        if (a && a.left) {
+                            b.changePxy(a.left, a.top);
+                        } else if (b) {
+                            _this2.callBackFunc(b);
+                        }
+                        return b;
+                    }, null);
+                }
+                _this2.list.forEach(function (el, index) {
+                    if (index === 0) {
+                        _this2.hatList.forEach(function (hat) {
+                            if (collText(el.el, hat.el)) {
+                                hat.destory();
+                                _this2.removeHat(hat.key);
+                                _this2.addBiu();
+                            }
+                        });
+                    }
+                    _this2.collection(el);
+                    el.move();
+                });
+                if (!_this2.isWorking) {
+                    return;
+                };
+                _this2.playWork();
+            });
+        }
+    }]);
+
+    return WorkBus;
+}(BaseWorkBus);
+
 var bus = new WorkBus();
 bus.playWork();
-var snakeNum = 20;
+var snakeNum = 10;
 while (snakeNum > 0) {
     snakeNum--;
     var t = winHeight / 2 + 10 * snakeNum;

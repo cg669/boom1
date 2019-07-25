@@ -1,4 +1,22 @@
 
+class WorkBus extends BaseWorkBus{
+    constructor(props){
+        super(props);
+    }
+    playWork() {
+        this.isWorking = true;
+        this.iTimer = requestAnimationFrame(() => {
+            this.list.forEach(el => {
+                this.collection(el);
+                el.move();
+            });
+            if (!this.isWorking) {
+                return;
+            };
+            this.playWork();
+        })
+    }
+}
 const bus = new WorkBus();
 bus.playWork();
 var num = 200;

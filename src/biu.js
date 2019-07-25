@@ -11,7 +11,7 @@ class Biu {
         this.new = true;
         this.rx = 0;
         this.ry = 1;
-        
+
         this.next = false;
         this.px = left;
         this.py = top;

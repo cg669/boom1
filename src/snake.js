@@ -1,3 +1,5 @@
+
+
 var EventUtil = {
     addHandler: function (element, type, handler) {
         if (element.addEventListener)
@@ -69,9 +71,65 @@ var EventUtil = {
     }
 };
 
+class WorkBus extends BaseWorkBus {
+    constructor(props) {
+        super(props);
+        this.hatList = [];
+    }
+    addHat(hat) {
+        this.hatList.push(hat);
+    }
+    addBiu(){
+        const lastOne = this.list[this.list.length-1];
+        const snake = new Biu({ left: lastOne.px, top: lastOne.py, radius: 10 });
+        this.add(snake);
+    }
+    removeHat(key){
+        const list = this.hatList;
+        this.hatList = list.filter(el => el.key !== key);
+    }
+    playWork() {
+        if (this.times % 200 === 9) {
+            const w = Math.random() * 20 + 10;
+            const hat = new Hat({ width: w, height: w, left: Math.random() * winWidth, top: Math.random() * winHeight })
+            this.addHat(hat);
+        }
+        this.times++;
+        this.isWorking = true;
+        this.iTimer = requestAnimationFrame(() => {
+            if (this.change) {
+                this.list.reduce((a, b) => {
+                    if (a && a.left) {
+                        b.changePxy(a.left, a.top);
+                    } else if (b) {
+                        this.callBackFunc(b);
+                    }
+                    return b;
+                }, null);
+            }
+            this.list.forEach( (el,index) => {
+                if(index === 0){
+                    this.hatList.forEach(hat=>{
+                        if(collText(el.el,hat.el)){
+                            hat.destory();
+                            this.removeHat(hat.key);
+                            this.addBiu();
+                        }
+                    })
+                }
+                this.collection(el);
+                el.move();
+            });
+            if (!this.isWorking) {
+                return;
+            };
+            this.playWork();
+        })
+    }
+}
 const bus = new WorkBus();
 bus.playWork();
-var snakeNum = 20;
+var snakeNum = 10;
 while (snakeNum > 0) {
     snakeNum--;
     const t = winHeight / 2 + 10 * snakeNum;

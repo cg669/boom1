@@ -19,3 +19,7 @@ html,body{
     position: absolute;
     background-color: #FAFAD2;
 }
+.hat{
+    position: absolute;
+    background-color: green;
+}

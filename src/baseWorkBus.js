@@ -1,45 +1,32 @@
 
 const winHeight = window.innerHeight;
 const winWidth = window.innerWidth;
-class WorkBus {
+class BaseWorkBus {
+
+    times = 0;
+
     list = [];
+
     iTimer = null;
+    
     isWorking = false;
 
     change = false;
     changeList = [];
     changeNum = 10;
 
+    addMethod(name, fn) {
+        this[name] = fn;
+    }
+
     callBackFunc = x => x;
+
     add(item) {
         this.list.push(item)
     }
     callFunc(func) {
         this.change = true;
         this.callBackFunc = func;
-    }
-    playWork() {
-        this.isWorking = true;
-        this.iTimer = requestAnimationFrame(() => {
-            if (this.change) {
-                this.list.reduce( (a,b) => {
-                    if(a && a.left){
-                        b.changePxy(a.left, a.top);
-                    }else if(b){
-                        this.callBackFunc(b);
-                    }
-                    return b;
-                },null);
-            }
-            this.list.forEach( el => {
-                this.collection(el);
-                el.move();
-            });
-            if (!this.isWorking) {
-                return;
-            };
-            this.playWork();
-        })
     }
     /**
      * 关闭运动s
