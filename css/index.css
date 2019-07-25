@@ -19,7 +19,17 @@ html,body{
     position: absolute;
     background-color: #FAFAD2;
 }
+
 .hat{
     position: absolute;
     background-color: green;
+}
+.eat{
+    z-index: 2;
+    background-color: green; 
+}
+.heart{
+    border-radius: 100%;
+    position: absolute;
+    background-color: red;
 }

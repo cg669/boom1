@@ -79,10 +79,23 @@ var WorkBus = function (_BaseWorkBus) {
         var _this = _possibleConstructorReturn(this, (WorkBus.__proto__ || Object.getPrototypeOf(WorkBus)).call(this, props));
 
         _this.hatList = [];
+        _this.dotList = [];
         return _this;
     }
 
     _createClass(WorkBus, [{
+        key: "addDot",
+        value: function addDot(hat) {
+            var num = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+            console.log(num);
+            while (num > 0) {
+                num--;
+                var dot = new Dot({ left: hat.l, top: hat.t, radius: 5, speed: 10, className: 'heart' });
+                this.dotList.push(dot);
+            }
+        }
+    }, {
         key: "addHat",
         value: function addHat(hat) {
             this.hatList.push(hat);
@@ -90,9 +103,22 @@ var WorkBus = function (_BaseWorkBus) {
     }, {
         key: "addBiu",
         value: function addBiu() {
-            var lastOne = this.list[this.list.length - 1];
-            var snake = new Biu({ left: lastOne.px, top: lastOne.py, radius: 10 });
-            this.add(snake);
+            var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+            while (num > 0) {
+                num--;
+                var lastOne = this.list[this.list.length - 1];
+                var snake = new Biu({ left: lastOne.px, top: lastOne.py, radius: 10 });
+                this.add(snake);
+            }
+        }
+    }, {
+        key: "deleteDot",
+        value: function deleteDot(key) {
+            var list = this.dotList;
+            this.dotList = list.filter(function (el) {
+                return el.key !== key;
+            });
         }
     }, {
         key: "removeHat",
@@ -126,18 +152,34 @@ var WorkBus = function (_BaseWorkBus) {
                         return b;
                     }, null);
                 }
+                _this2.dotList.forEach(function (dot) {
+                    if (dot.dt > Math.PI * 2) {
+                        dot.destory();
+                        _this2.deleteDot(dot.key);
+                    } else {
+                        dot.move();
+                    }
+                });
                 _this2.list.forEach(function (el, index) {
                     if (index === 0) {
+                        if (_this2.times % 100 === 9) {
+                            el.changeColor(false);
+                        }
                         _this2.hatList.forEach(function (hat) {
                             if (collText(el.el, hat.el)) {
                                 hat.destory();
                                 _this2.removeHat(hat.key);
-                                _this2.addBiu();
+
+                                var num = Math.round(hat.w / 10);
+                                el.changeColor(true);
+                                _this2.addBiu(num);
+                                _this2.addDot(hat, num);
                             }
                         });
                         _this2.collectionFirst(el);
                     }
                     el.move();
+                    // el.changeRadius(10);
                 });
                 if (!_this2.isWorking) {
                     return;
@@ -152,16 +194,12 @@ var WorkBus = function (_BaseWorkBus) {
             if (el) {
                 if (el.offsetLeft < 0) {
                     el.style.left = winWidth + 'px';
-                    // item.changeSpeed(1, 0)
                 } else if (el.offsetLeft > winWidth) {
                     el.style.left = 0 + 'px';
-                    // item.changeSpeed(-1, 0)
                 } else if (el.offsetTop < 0) {
                     el.style.top = winHeight + 'px';
-                    // item.changeSpeed(0, -1)
                 } else if (el.offsetTop > winHeight) {
                     el.style.top = 0 + 'px';
-                    // item.changeSpeed(0, 1)
                 }
             }
         }

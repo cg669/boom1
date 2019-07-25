@@ -9,7 +9,8 @@ var Dot = function () {
         var left = _ref.left,
             top = _ref.top,
             radius = _ref.radius,
-            speed = _ref.speed;
+            speed = _ref.speed,
+            className = _ref.className;
 
         _classCallCheck(this, Dot);
 
@@ -22,6 +23,7 @@ var Dot = function () {
         this.dt = 0;
         this.dl = 0;
         this.new = true;
+        this.className = className;
         this.init();
     }
 
@@ -29,7 +31,7 @@ var Dot = function () {
         key: 'init',
         value: function init() {
             var el = document.createElement('div');
-            el.className = 'dot';
+            el.className = this.className || 'dot';
             el.style.left = this.left - this.radius / 2 + 'px';
             el.style.top = this.top - this.radius / 2 + 'px';
             el.style.width = this.radius + 'px';

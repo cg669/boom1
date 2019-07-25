@@ -16,7 +16,16 @@ class Biu {
         this.px = left;
         this.py = top;
         this.changeNum = 10;
+
+        this.oldRadius = radius;
         this.init();
+    }
+    changeRadius(radius){
+        this.el.style.width = radius + 'px';
+        this.el.style.height = radius + 'px';
+    }
+    changeColor(bool){
+        this.el.className = bool ? 'dot eat' : 'dot';
     }
     changeSpeed(rx, ry) {
         this.rx = rx;

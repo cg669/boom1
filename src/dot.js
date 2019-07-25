@@ -1,5 +1,5 @@
 class Dot {
-    constructor({ left, top, radius, speed }) {
+    constructor({ left, top, radius, speed, className }) {
         this.left = left;
         this.top = top;
         this.radius = radius;
@@ -9,11 +9,12 @@ class Dot {
         this.dt = 0;
         this.dl = 0;
         this.new = true;
+        this.className = className;
         this.init();
     }
     init() {
         const el = document.createElement('div');
-        el.className = 'dot';
+        el.className = this.className || 'dot';
         el.style.left = `${this.left - this.radius / 2}px`;
         el.style.top = `${this.top - this.radius / 2}px`;
         el.style.width = this.radius + 'px';

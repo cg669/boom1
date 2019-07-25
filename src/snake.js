@@ -75,14 +75,31 @@ class WorkBus extends BaseWorkBus {
     constructor(props) {
         super(props);
         this.hatList = [];
+        this.dotList = [];
+    }
+    addDot(hat,num=1){
+        console.log(num)
+        while(num > 0){
+            num--;
+            const dot = new Dot({ left: hat.l , top: hat.t, radius: 5, speed: 10,className: 'heart' });
+            this.dotList.push(dot);
+        }
+        
     }
     addHat(hat) {
         this.hatList.push(hat);
     }
-    addBiu(){
-        const lastOne = this.list[this.list.length-1];
-        const snake = new Biu({ left: lastOne.px, top: lastOne.py, radius: 10 });
-        this.add(snake);
+    addBiu(num=1){
+        while(num > 0){
+            num--;
+            const lastOne = this.list[this.list.length-1];
+            const snake = new Biu({ left: lastOne.px, top: lastOne.py, radius: 10 });
+            this.add(snake);
+        }
+    }
+    deleteDot(key){
+        const list = this.dotList;
+        this.dotList = list.filter(el => el.key !== key);
     }
     removeHat(key){
         const list = this.hatList;
@@ -108,18 +125,34 @@ class WorkBus extends BaseWorkBus {
                     return b;
                 }, null);
             }
+            this.dotList.forEach( dot => {
+                if(dot.dt > Math.PI * 2){
+                    dot.destory();
+                    this.deleteDot(dot.key);
+                }else{
+                    dot.move();
+                }
+            })
             this.list.forEach( (el,index) => {
                 if(index === 0){
+                    if(this.times % 100 === 9){
+                        el.changeColor(false);
+                    }
                     this.hatList.forEach(hat=>{
                         if(collText(el.el,hat.el)){
                             hat.destory();
                             this.removeHat(hat.key);
-                            this.addBiu();
+                            
+                            const num = Math.round(hat.w /10);
+                            el.changeColor(true);
+                            this.addBiu(num);
+                            this.addDot(hat,num);
                         }
                     })
                     this.collectionFirst(el);
                 }
                 el.move();
+                // el.changeRadius(10);
             });
             if (!this.isWorking) {
                 return;
@@ -132,16 +165,12 @@ class WorkBus extends BaseWorkBus {
         if (el) {
             if(el.offsetLeft < 0){
                 el.style.left = winWidth + 'px';
-                // item.changeSpeed(1, 0)
             }else if(el.offsetLeft > winWidth){
                 el.style.left = 0 + 'px';
-                // item.changeSpeed(-1, 0)
             }else if(el.offsetTop < 0){
                 el.style.top = winHeight + 'px';
-                // item.changeSpeed(0, -1)
             }else if(el.offsetTop > winHeight){
                 el.style.top = 0 + 'px';
-                // item.changeSpeed(0, 1)
             }
         }
     }

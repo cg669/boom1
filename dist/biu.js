@@ -29,10 +29,23 @@ var Biu = function () {
         this.px = left;
         this.py = top;
         this.changeNum = 10;
+
+        this.oldRadius = radius;
         this.init();
     }
 
     _createClass(Biu, [{
+        key: 'changeRadius',
+        value: function changeRadius(radius) {
+            this.el.style.width = radius + 'px';
+            this.el.style.height = radius + 'px';
+        }
+    }, {
+        key: 'changeColor',
+        value: function changeColor(bool) {
+            this.el.className = bool ? 'dot eat' : 'dot';
+        }
+    }, {
         key: 'changeSpeed',
         value: function changeSpeed(rx, ry) {
             this.rx = rx;
