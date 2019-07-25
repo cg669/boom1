@@ -109,7 +109,8 @@ var WorkBus = function (_BaseWorkBus) {
 
             if (this.times % 200 === 9) {
                 var w = Math.random() * 20 + 10;
-                var hat = new Hat({ width: w, height: w, left: Math.random() * winWidth, top: Math.random() * winHeight });
+                var md = (Math.random() * 6 + 2) / 10;
+                var hat = new Hat({ width: w, height: w, left: md * winWidth, top: md * winHeight });
                 this.addHat(hat);
             }
             this.times++;
@@ -134,8 +135,8 @@ var WorkBus = function (_BaseWorkBus) {
                                 _this2.addBiu();
                             }
                         });
+                        _this2.collectionFirst(el);
                     }
-                    _this2.collection(el);
                     el.move();
                 });
                 if (!_this2.isWorking) {
@@ -143,6 +144,26 @@ var WorkBus = function (_BaseWorkBus) {
                 };
                 _this2.playWork();
             });
+        }
+    }, {
+        key: "collectionFirst",
+        value: function collectionFirst(item) {
+            var el = item.el;
+            if (el) {
+                if (el.offsetLeft < 0) {
+                    el.style.left = winWidth + 'px';
+                    // item.changeSpeed(1, 0)
+                } else if (el.offsetLeft > winWidth) {
+                    el.style.left = 0 + 'px';
+                    // item.changeSpeed(-1, 0)
+                } else if (el.offsetTop < 0) {
+                    el.style.top = winHeight + 'px';
+                    // item.changeSpeed(0, -1)
+                } else if (el.offsetTop > winHeight) {
+                    el.style.top = 0 + 'px';
+                    // item.changeSpeed(0, 1)
+                }
+            }
         }
     }]);
 
