@@ -111,4 +111,12 @@ function addDot(){
 
 addDot();
 
+document.body.onclick= function(){
+    if(bus.isWorking){
+        bus.stopWork();
+    }else{
+        bus.playWork();
+    }
+}
+
 // console.log(bus);
