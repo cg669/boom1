@@ -5,19 +5,34 @@ class WorkBus {
     list = [];
     iTimer = null;
     isWorking = false;
+
+    change = false;
+    changeList = [];
+    changeNum = 10;
+
     callBackFunc = x => x;
     add(item) {
         this.list.push(item)
     }
-    callFunc(func){
+    callFunc(func) {
+        this.change = true;
         this.callBackFunc = func;
     }
     playWork() {
         this.isWorking = true;
         this.iTimer = requestAnimationFrame(() => {
-            this.list.forEach(el => {
+            if (this.change) {
+                this.list.reduce( (a,b) => {
+                    if(a && a.left){
+                        b.changePxy(a.left, a.top);
+                    }else if(b){
+                        this.callBackFunc(b);
+                    }
+                    return b;
+                },null);
+            }
+            this.list.forEach( el => {
                 this.collection(el);
-                this.callBackFunc(el);
                 el.move();
             });
             if (!this.isWorking) {

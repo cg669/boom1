@@ -71,10 +71,11 @@ var EventUtil = {
 
 const bus = new WorkBus();
 bus.playWork();
-var snakeNum = 40;
+var snakeNum = 20;
 while(snakeNum>0){
     snakeNum--;
-    const snake = new Biu({ left: winWidth /2 , top: winHeight / 2,radius: 10 });
+    const top = winHeight / 2 + 10*snakeNum;
+    const snake = new Biu({ left: winWidth /2 , top: top,radius: 10 });
     bus.add(snake);
 }
 function up(){

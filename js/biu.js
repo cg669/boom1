@@ -11,11 +11,21 @@ class Biu {
         this.new = true;
         this.rx = 0;
         this.ry = 1;
+
+        this.next = false;
+        this.px = left;
+        this.py = top;
+        this.changeNum = 10;
         this.init();
     }
     changeSpeed(rx, ry) {
         this.rx = rx;
         this.ry = ry;
+    }
+    changePxy(x, y) {
+        this.next = true;
+        this.px = x;
+        this.py = y;
     }
     init() {
         const el = document.createElement('div');
@@ -28,8 +38,18 @@ class Biu {
         document.body.appendChild(el);
     }
     move() {
-        this.el.style.left = Number(this.el.offsetLeft) + this.rx + 'px';
-        this.el.style.top = Number(this.el.offsetTop) + this.ry + 'px';
+        if(this.next && this.changeNum){
+            this.changeNum--;
+            this.el.style.left = this.px + 'px';
+            this.el.style.top = this.py + 'px';
+        }else{
+            this.changeNum = 10;
+            this.next = false;
+            this.left = Number(this.el.offsetLeft) + this.rx;
+            this.top = Number(this.el.offsetTop) + this.ry;
+            this.el.style.left = this.left + 'px';
+            this.el.style.top = this.top + 'px';
+        }
     }
     destory() {
         document.body.removeChild(this.el);
