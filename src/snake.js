@@ -95,4 +95,7 @@ function up(){
     // console.log("左");
     bus.callFunc( el => el.changeSpeed(-1,0));
  }
- EventUtil.listenTouchDirection(document, true, up, right,  down, left)
+ document.body.addEventListener('touchmove', function (e) {
+    e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+  }, {passive: false}); //passive 参数不能省略，用来兼容ios和android
+ EventUtil.listenTouchDirection(document.body, true, up, right,  down, left)
