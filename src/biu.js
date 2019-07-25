@@ -11,7 +11,7 @@ class Biu {
         this.new = true;
         this.rx = 0;
         this.ry = 1;
-
+        
         this.next = false;
         this.px = left;
         this.py = top;
@@ -38,11 +38,11 @@ class Biu {
         document.body.appendChild(el);
     }
     move() {
-        if(this.next && this.changeNum){
+        if (this.next && this.changeNum) {
             this.changeNum--;
             this.el.style.left = this.px + 'px';
             this.el.style.top = this.py + 'px';
-        }else{
+        } else {
             this.changeNum = 10;
             this.next = false;
             this.left = Number(this.el.offsetLeft) + this.rx;

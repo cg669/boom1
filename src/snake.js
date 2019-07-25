@@ -74,13 +74,13 @@ bus.playWork();
 var snakeNum = 20;
 while(snakeNum>0){
     snakeNum--;
-    const top = winHeight / 2 + 10*snakeNum;
-    const snake = new Biu({ left: winWidth /2 , top: top,radius: 10 });
+    const t = winHeight / 2 + 10*snakeNum;
+    const snake = new Biu({ left: winWidth /2 , top: t,radius: 10 });
     bus.add(snake);
 }
 function up(){
     // console.log("上");
-    bus.callFunc( el => el.changeSpeed(0,1));
+    bus.callFunc( el => el.changeSpeed(0,-1));
  }
  function right(){
     // console.log("右");
@@ -88,7 +88,7 @@ function up(){
  }
  function down(){
     // console.log("下");
-    bus.callFunc( el => el.changeSpeed(0,-1));
+    bus.callFunc( el => el.changeSpeed(0,1));
 
  }
  function left(){
