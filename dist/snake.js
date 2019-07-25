@@ -95,4 +95,15 @@ function left() {
         return el.changeSpeed(-1, 0);
     });
 }
-EventUtil.listenTouchDirection(document, true, up, right, down, left);
+document.body.addEventListener('touchmove', function (e) {
+    e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+}, { passive: false }); //passive 参数不能省略，用来兼容ios和android
+document.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+});
+document.addEventListener('gesturestart', function (event) {
+    event.preventDefault();
+});
+EventUtil.listenTouchDirection(document.body, true, up, right, down, left);

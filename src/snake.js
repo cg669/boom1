@@ -8,9 +8,9 @@ var EventUtil = {
             element["on" + type] = handler;
     },
     removeHandler: function (element, type, handler) {
-        if(element.removeEventListener)
+        if (element.removeEventListener)
             element.removeEventListener(type, handler, false);
-        else if(element.detachEvent)
+        else if (element.detachEvent)
             element.detachEvent("on" + type, handler);
         else
             element["on" + type] = handler;
@@ -31,7 +31,7 @@ var EventUtil = {
         var startX;
         var startY;
         function handleTouchEvent(event) {
-            switch (event.type){
+            switch (event.type) {
                 case "touchstart":
                     startX = event.touches[0].pageX;
                     startY = event.touches[0].pageY;
@@ -40,20 +40,20 @@ var EventUtil = {
                     var spanX = event.changedTouches[0].pageX - startX;
                     var spanY = event.changedTouches[0].pageY - startY;
 
-                    if(Math.abs(spanX) > Math.abs(spanY)){      //认定为水平方向滑动
-                        if(spanX > 30){         //向右
-                            if(rightCallback)
+                    if (Math.abs(spanX) > Math.abs(spanY)) {      //认定为水平方向滑动
+                        if (spanX > 30) {         //向右
+                            if (rightCallback)
                                 rightCallback();
-                        } else if(spanX < -30){ //向左
-                            if(leftCallback)
+                        } else if (spanX < -30) { //向左
+                            if (leftCallback)
                                 leftCallback();
                         }
                     } else {                                    //认定为垂直方向滑动
-                        if(spanY > 30){         //向下
-                            if(downCallback)
+                        if (spanY > 30) {         //向下
+                            if (downCallback)
                                 downCallback();
                         } else if (spanY < -30) {//向上
-                            if(upCallback)
+                            if (upCallback)
                                 upCallback();
                         }
                     }
@@ -61,7 +61,7 @@ var EventUtil = {
                     break;
                 case "touchmove":
                     //阻止默认行为
-                    if(isPreventDefault)
+                    if (isPreventDefault)
                         event.preventDefault();
                     break;
             }
@@ -72,30 +72,38 @@ var EventUtil = {
 const bus = new WorkBus();
 bus.playWork();
 var snakeNum = 20;
-while(snakeNum>0){
+while (snakeNum > 0) {
     snakeNum--;
-    const t = winHeight / 2 + 10*snakeNum;
-    const snake = new Biu({ left: winWidth /2 , top: t,radius: 10 });
+    const t = winHeight / 2 + 10 * snakeNum;
+    const snake = new Biu({ left: winWidth / 2, top: t, radius: 10 });
     bus.add(snake);
 }
-function up(){
+function up() {
     // console.log("上");
-    bus.callFunc( el => el.changeSpeed(0,-1));
- }
- function right(){
+    bus.callFunc(el => el.changeSpeed(0, -1));
+}
+function right() {
     // console.log("右");
-    bus.callFunc( el => el.changeSpeed(1,0));
- }
- function down(){
+    bus.callFunc(el => el.changeSpeed(1, 0));
+}
+function down() {
     // console.log("下");
-    bus.callFunc( el => el.changeSpeed(0,1));
+    bus.callFunc(el => el.changeSpeed(0, 1));
 
- }
- function left(){
+}
+function left() {
     // console.log("左");
-    bus.callFunc( el => el.changeSpeed(-1,0));
- }
- document.body.addEventListener('touchmove', function (e) {
+    bus.callFunc(el => el.changeSpeed(-1, 0));
+}
+document.body.addEventListener('touchmove', function (e) {
     e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
-  }, {passive: false}); //passive 参数不能省略，用来兼容ios和android
- EventUtil.listenTouchDirection(document.body, true, up, right,  down, left)
+}, { passive: false }); //passive 参数不能省略，用来兼容ios和android
+document.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault()
+    }
+});
+document.addEventListener('gesturestart', function (event) {
+    event.preventDefault()
+});
+EventUtil.listenTouchDirection(document.body, true, up, right, down, left)

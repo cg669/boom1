@@ -19,8 +19,8 @@ function addDot() {
 
 addDot();
 
-document.addEventListener('click', function () {
+window.onclick = function () {
     window.location.href = 'others/snake.html';
-});
+};
 
 // console.log(bus);
