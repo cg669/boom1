@@ -9,7 +9,7 @@ class Biu {
         this.dt = 0;
         this.dl = 0;
         this.new = true;
-        this.rx = 1;
+        this.rx = 0;
         this.ry = 1;
         this.init();
     }
@@ -28,8 +28,8 @@ class Biu {
         document.body.appendChild(el);
     }
     move() {
-        this.el.style.left = this.left + this.rx + 'px';
-        this.el.style.top = this.top + this.ry + 'px';
+        this.el.style.left = Number(this.el.offsetLeft) + this.rx + 'px';
+        this.el.style.top = Number(this.el.offsetTop) + this.ry + 'px';
     }
     destory() {
         document.body.removeChild(this.el);
