@@ -1,0 +1,18 @@
+{
+  "common/js/baseWorkBus.js": "common/js/baseWorkBus-b412dbd355.js",
+  "common/js/dot.js": "common/js/dot-833da3b42e.js",
+  "common/js/utils.js": "common/js/utils-3a10f3a01e.js",
+  "common/js/uuid.js": "common/js/uuid-b757913f8f.js",
+  "maps/common/js/baseWorkBus.js": "maps/common/js/baseWorkBus-b412dbd355.js.map",
+  "maps/common/js/dot.js": "maps/common/js/dot-833da3b42e.js.map",
+  "maps/common/js/utils.js": "maps/common/js/utils-3a10f3a01e.js.map",
+  "maps/common/js/uuid.js": "maps/common/js/uuid-b757913f8f.js.map",
+  "maps/pages/home/index.js": "maps/pages/home/index-8e2e51a363.js.map",
+  "maps/pages/snake/js/biu.js": "maps/pages/snake/js/biu-8db39f5d49.js.map",
+  "maps/pages/snake/js/hat.js": "maps/pages/snake/js/hat-b1673506f3.js.map",
+  "maps/pages/snake/js/snake.js": "maps/pages/snake/js/snake-b42fdb547a.js.map",
+  "pages/home/index.js": "pages/home/index-8e2e51a363.js",
+  "pages/snake/js/biu.js": "pages/snake/js/biu-8db39f5d49.js",
+  "pages/snake/js/hat.js": "pages/snake/js/hat-b1673506f3.js",
+  "pages/snake/js/snake.js": "pages/snake/js/snake-b42fdb547a.js"
+}

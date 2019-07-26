@@ -37,7 +37,5 @@ function addDot(){
 addDot();
 
 window.onclick = function(){
-    window.location.href = 'others/snake.html';
+    window.location.href = 'pages/snake/snake.html';
 }
-
-// console.log(bus);
